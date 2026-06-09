@@ -23,6 +23,13 @@ def get_user(id: int, db: Session = Depends(database.get_db)):
         raise HTTPException(status_code=404, detail="User not found")
     return user
 
+@router.put("/{id}", response_model=schemas.UserResponse)
+def update_user(id: int, user: schemas.UserCreate, db: Session = Depends(database.get_db)):
+    existing_user = user_service.put_user(db, id, user)
+    if not existing_user:
+        raise HTTPException(status_code=404, detail="User not found")
+    return existing_user
+
 @router.delete("/{id}")
 def delete_user(id: int, db: Session = Depends(database.get_db)):
     user = user_service.delete_user(db, id)
