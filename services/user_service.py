@@ -8,6 +8,9 @@ def create_user(db: Session, user: schemas.UserCreate):
     db.refresh(new_user)
     return new_user
 
+def get_all(db:Session):
+    return db.query(models.User).all()
+
 def get_user(db: Session, user_id: int):
     return db.query(models.User).filter(models.User.id == user_id).first()
 
